@@ -1,3 +1,5 @@
+import 'package:api_experience/models/user.dart';
+import 'package:api_experience/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -5,6 +7,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserRepository repository = UserRepository();
+    List<User> users = [];
     return Scaffold(
       appBar: AppBar(
         title: const Text('URL EXPERIENCE'),
@@ -16,7 +20,15 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                users = await repository.fetchUsers();
+                if (users.isEmpty) {
+                  // API RESPONSE EMPTY
+                  print("EMPTY");
+                } else {
+                  print(users);
+                }
+              },
               child: const Text(
                 'PRESS ME',
                 style: TextStyle(fontWeight: FontWeight.bold),
